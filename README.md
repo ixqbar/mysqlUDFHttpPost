@@ -1,7 +1,7 @@
 
 ### install
 ```
-make mac
+make
 ```
 * 留意mysql库位置不同时需修改 cgo CFLAGS: -I/usr/local/mysql/include -I/usr/local/mysql/include/mysql
 * 编译完成生成mysqlHttp.so并拷贝到select @@plugin_dir; 结果路径目录下
