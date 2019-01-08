@@ -14,13 +14,13 @@ make
 select @@plugin_dir;
 
 drop function httpPost;
+create function jsonObject returns string soname 'mysqlHttp.so';
 create function httpPost returns string soname 'mysqlHttp.so';
 
-select json_object("id", Host) into @temp from user limit 1;
+select jsonObject("id", Host) into @temp from user limit 1;
 select @temp;
 select httpPost('https://www.caoxianjie.cn/todo.php', @temp);
 ```
-* mysql5.x.x不支持json,json_object函数可以寻求其他udf库支持
 
 
 ### 触发器

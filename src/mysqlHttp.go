@@ -8,6 +8,7 @@ package main
 import "C"
 
 import (
+	"encoding/json"
 	"io/ioutil"
 	"net/http"
 	"strings"
@@ -22,16 +23,50 @@ func msg(message *C.char, s string) {
 	C.strcpy(message, m)
 }
 
-func argToGostrings(count C.uint, args **C.char) []string {
-	length := count
+func argToGostrings(length C.uint, args **C.char) []string {
 	argslice := (*[1 << 30]*C.char)(unsafe.Pointer(args))[:length:length]
-
-	gostrings := make([]string, count)
+	gostrings := make([]string, length)
 
 	for i, s := range argslice {
 		gostrings[i] = C.GoString(s)
 	}
+
 	return gostrings
+}
+
+//export jsonObject_init
+func jsonObject_init(initid *C.UDF_INIT, args *C.UDF_ARGS, message *C.char) C.my_bool {
+	return 0
+}
+
+//export jsonObject
+func jsonObject(initid *C.UDF_INIT, args *C.UDF_ARGS, result *C.char, length *C.ulong, isNull *C.char, error *C.char) *C.char {
+	data := ""
+
+	if int(args.arg_count) % 2 == 0 {
+		argsString := argToGostrings(args.arg_count, args.args)
+		hashData := map[string]interface{}{}
+
+		for k, v := range argsString {
+			if k > 0 && k % 2 != 0 {
+				hashData[argsString[k-1]] = v
+			}
+		}
+
+		jsonData, err := json.Marshal(hashData)
+		if err == nil {
+			data = string(jsonData)
+		}
+	}
+
+	result = C.CString(data)
+	*length = C.ulong(utf8.RuneCountInString(C.GoString(result)))
+
+	return result
+}
+
+//export jsonObject_deinit
+func jsonObject_deinit(initid *C.UDF_INIT) {
 }
 
 //export httpPost_init
