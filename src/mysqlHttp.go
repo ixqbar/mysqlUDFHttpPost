@@ -12,7 +12,6 @@ import (
 	"io/ioutil"
 	"net/http"
 	"strings"
-	"unicode/utf8"
 	"unsafe"
 )
 
@@ -60,7 +59,7 @@ func jsonObject(initid *C.UDF_INIT, args *C.UDF_ARGS, result *C.char, length *C.
 	}
 
 	result = C.CString(data)
-	*length = C.ulong(utf8.RuneCountInString(C.GoString(result)))
+	*length = C.ulong(len(data))
 
 	return result
 }
@@ -99,7 +98,7 @@ func httpPost(initid *C.UDF_INIT, args *C.UDF_ARGS, result *C.char, length *C.ul
 	}
 
 	result = C.CString(data)
-	*length = C.ulong(utf8.RuneCountInString(C.GoString(result)))
+	*length = C.ulong(len(data))
 
 	return result
 }

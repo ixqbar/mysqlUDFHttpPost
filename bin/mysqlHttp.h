@@ -73,6 +73,12 @@ extern "C" {
 #endif
 
 
+extern my_bool jsonObject_init(UDF_INIT* p0, UDF_ARGS* p1, char* p2);
+
+extern char* jsonObject(UDF_INIT* p0, UDF_ARGS* p1, char* p2, long unsigned int* p3, char* p4, char* p5);
+
+extern void jsonObject_deinit(UDF_INIT* p0);
+
 extern my_bool httpPost_init(UDF_INIT* p0, UDF_ARGS* p1, char* p2);
 
 extern char* httpPost(UDF_INIT* p0, UDF_ARGS* p1, char* p2, long unsigned int* p3, char* p4, char* p5);
