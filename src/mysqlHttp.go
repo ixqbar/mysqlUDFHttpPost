@@ -4,7 +4,7 @@ package main
 // #include <stdlib.h>
 // #include <string.h>
 // #include <mysql.h>
-// #cgo CFLAGS: -I/usr/local/mysql/include -I/usr/local/mysql/include/mysql
+// #cgo CFLAGS: -I/usr/include/mysql
 import "C"
 
 import (
@@ -35,13 +35,13 @@ func argToGostrings(count C.uint, args **C.char) []string {
 }
 
 //export httpPost_init
-func httpPost_init(initid *C.UDF_INIT, args *C.UDF_ARGS, message *C.char) C.bool {
+func httpPost_init(initid *C.UDF_INIT, args *C.UDF_ARGS, message *C.char) C.my_bool {
 	if int(args.arg_count) != 2 {
 		msg(message, "error params")
-		return true
+		return 1
 	}
 
-	return false
+	return 0
 }
 
 //export httpPost

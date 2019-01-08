@@ -1,9 +1,12 @@
 
+### for linux mysql5.x.x
+
 ### install
 ```
+yum install mysql-devel.x86_64
 make
 ```
-* 留意mysql库位置不同时需修改 cgo CFLAGS: -I/usr/local/mysql/include -I/usr/local/mysql/include/mysql
+* 留意mysql库位置不同时需修改 cgo CFLAGS: -I/usr/include/mysql
 * 编译完成生成mysqlHttp.so并拷贝到select @@plugin_dir; 结果路径目录下
 
 ### usage
@@ -17,6 +20,8 @@ select json_object("id", Host) into @temp from user limit 1;
 select @temp;
 select httpPost('https://www.caoxianjie.cn/todo.php', @temp);
 ```
+* mysql5.x.x不支持json,json_object函数可以寻求其他udf库支持
+
 
 ### 触发器
 ```

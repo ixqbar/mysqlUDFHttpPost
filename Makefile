@@ -1,7 +1,7 @@
 SHELL:=/bin/bash
 TARGET=mysqlHttp
 
-all: mac
+all: linux
 
 win:
 	GOOS=windows GOARCH=amd64 go build -buildmode=c-shared -o ./bin/${TARGET}.dll ./src
