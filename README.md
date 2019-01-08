@@ -10,6 +10,9 @@ make
 ```
 select @@plugin_dir;
 
+drop function jsonObject;
+create function jsonObject returns string soname 'mysqlHttp.so';
+
 drop function httpPost;
 create function httpPost returns string soname 'mysqlHttp.so';
 
