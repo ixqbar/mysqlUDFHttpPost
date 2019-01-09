@@ -33,7 +33,7 @@ DROP TRIGGER IF EXISTS mytable_insert;
 CREATE TRIGGER mytable_insert  
 AFTER INSERT ON mytable  
 FOR EACH ROW BEGIN  
-    SELECT json_object("action", "insert", "id", id) into @temp FROM mytable WHERE id = NEW.id LIMIT 1);  
+    SELECT jsonObject("action", "insert", "id", id) into @temp FROM mytable WHERE id = NEW.id LIMIT 1);  
     SELECT httpPost('https://www.caoxianjie.cn/todo.php', @temp);  
 END |  
 DELIMITER ;  
@@ -44,7 +44,7 @@ DROP TRIGGER IF EXISTS mytable_update;
 CREATE TRIGGER mytable_update  
 AFTER UPDATE ON mytable  
 FOR EACH ROW BEGIN  
-    SELECT json_object("action", "update", "id", id) into @temp FROM mytable WHERE id = OLD.id LIMIT 1);  
+    SELECT jsonObject("action", "update", "id", id) into @temp FROM mytable WHERE id = OLD.id LIMIT 1);  
     SELECT httpPost('https://www.caoxianjie.cn/todo.php', @temp);  
 END |  
 DELIMITER ;  
@@ -55,7 +55,7 @@ DROP TRIGGER IF EXISTS mytable_delete;
 CREATE TRIGGER mytable_delete  
 AFTER DELETE ON mytable  
 FOR EACH ROW BEGIN  
-    SELECT json_object("action", "delete", "id", id) into @temp FROM mytable WHERE id = OLD.id LIMIT 1);  
+    SELECT jsonObject("action", "delete", "id", id) into @temp FROM mytable WHERE id = OLD.id LIMIT 1);  
     SELECT httpPost('https://www.caoxianjie.cn/todo.php', @temp); 
 END |  
 DELIMITER ;  
